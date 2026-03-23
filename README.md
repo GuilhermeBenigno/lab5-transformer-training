@@ -45,7 +45,7 @@ Utilizado:
 ---
 ## Nota sobre IA
 Partes do código foram geradas/complementadas com auxílio de IA,
-sendo totalmente revisadas e compreendidas."""
+sendo totalmente revisadas e compreendidas.
 ---
 
 ##  Como Executar
