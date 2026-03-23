@@ -1,17 +1,19 @@
 import torch
+import torch.nn as nn
+import torch.optim as optim
 from datasets import load_dataset
 from transformers import AutoTokenizer
 
-#  Config
+# Config
 D_MODEL = 64
-VOCAB_SIZE = 10000
 EPOCHS = 5
 
-#  Dataset (pequeno pra rodar rápido)
+# Dataset
 dataset = load_dataset("bentrevett/multi30k", split="train[:200]")
 
-#  Tokenizer
+# Tokenizer
 tokenizer = AutoTokenizer.from_pretrained("bert-base-multilingual-cased")
+VOCAB_SIZE = tokenizer.vocab_size
 
 
 def tokenize(example):
@@ -25,7 +27,7 @@ def tokenize(example):
 
 dataset = dataset.map(tokenize)
 
-#  Modelo simples (simulação do seu transformer)
+
 class SimpleModel(nn.Module):
     def __init__(self):
         super().__init__()
@@ -40,12 +42,10 @@ class SimpleModel(nn.Module):
 
 model = SimpleModel()
 
-#  Loss e Otimizador
 criterion = nn.CrossEntropyLoss(ignore_index=0)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 
-#  Training Loop
 for epoch in range(EPOCHS):
     total_loss = 0
 
@@ -69,7 +69,6 @@ for epoch in range(EPOCHS):
 print("Treinamento finalizado!")
 
 
-#  Overfitting Test
 sample = dataset[0]
 src = sample["src"].unsqueeze(0)
 
